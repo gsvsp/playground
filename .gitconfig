@@ -1,0 +1,4 @@
+[alias]
+        s = status -sb
+        l = !git --no-pager log --oneline
+        d = !git --no-pager diff HEAD

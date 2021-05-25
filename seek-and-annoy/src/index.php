@@ -4,8 +4,8 @@
     </head>
     <body>
         <?php 
-            $date = new DateTime();
-            echo "<p>Hello there... ({$date->format('Y-m-d H:i:s')})</p>"; 
+            $path = $_SERVER['REQUEST_URI'];
+            echo "<p>Hello there... from {$path}</p>"; 
         ?> 
     </body>
 </html>

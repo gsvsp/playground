@@ -1,30 +1,25 @@
 ECHO := echo "\n>>>"
-WEB_APP_PORT := 8000
-WEB_APP_NAME := seek-and-annoy
+DOCKER_COMPOSE := DOCKER_SCAN_SUGGEST=false docker compose
 
 .PHONY: all
-all: kill build run-dev
+all: build run
 
 .PHONY: build
 build:
-	@${ECHO} "Build Docker image"
-	@DOCKER_SCAN_SUGGEST=false docker build -t $(WEB_APP_NAME) .
+	@${ECHO} "Build Docker images"
+	@${DOCKER_COMPOSE} build
 
-.PHONY: run-dev
-run-dev:
-	@${ECHO} "Run Docker image in foreground for development"
-	@docker run --rm \
-	  -v `pwd`/src:/var/www/html \
-	  -p $(WEB_APP_PORT):80 \
-	  --name $(WEB_APP_NAME) \
-	  $(WEB_APP_NAME)
+.PHONY: run
+run:
+	@${ECHO} "Run Docker images (in foreground)"
+	@${DOCKER_COMPOSE} up
 
 .PHONY: rund
 rund:
-	@${ECHO} "Run Docker image in background"
-	@docker run -d --rm -p $(WEB_APP_PORT):80 --name $(WEB_APP_NAME) $(WEB_APP_NAME)
+	@${ECHO} "Run Docker images (in background)"
+	@${DOCKER_COMPOSE} up -d
 
 .PHONY: kill
 kill:
-	@${ECHO} "Stop Docker container if running"
-	@docker kill $(WEB_APP_NAME) &>/dev/null | true
+	@${ECHO} "Stop running Docker containers"
+	@${DOCKER_COMPOSE} down

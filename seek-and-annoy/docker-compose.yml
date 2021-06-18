@@ -1,0 +1,13 @@
+services:
+    web:
+        build: web
+        ports:
+            - 8080:80
+        volumes:
+            - ./web/src:/var/www/html
+        links:
+            - "postgres"
+    postgres:
+        image: postgres
+        env_file:
+            - ./data/postgres.env
